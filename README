@@ -1,0 +1,24 @@
+Implement doubly-linked list.
+
+Macros list_each() and list_each_backward() have a shadow iterator,
+so for instance it is safe to write
+
+  struct mystruct
+  {
+    ...
+    struct list_node mynode;
+    ...
+  };
+  struct mystruct *mylist;
+
+  ...
+
+  for (struct mystruct *list_each(it, mylist, mynode))
+    free(it);
+
+i.e. to modify *it in any way as it won't be referenced again during
+traversal.
+
+Defining KROKI_LIST_NOPOLLUTE will result in omitting alias
+definitions, but functionality will still be available with the
+namespace prefix 'kroki_'.
