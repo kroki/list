@@ -86,25 +86,28 @@ struct kroki_list_node
 #define kroki_list_empty(head)                  \
   ((head)->next == (head))
 
-#define kroki_list_insert(head, node)           \
-  do                                            \
-    {                                           \
-      (head)->prev->next = (node);              \
-      (node)->prev = (head)->prev;              \
-      (head)->prev = (node);                    \
-      (node)->next = (head);                    \
-    }                                           \
+#define kroki_list_insert(head, node)                   \
+  do                                                    \
+    {                                                   \
+      struct kroki_list_node *_kroki_h = (head);        \
+      struct kroki_list_node *_kroki_n = (node);        \
+      _kroki_h->prev->next = _kroki_n;                  \
+      _kroki_n->prev = _kroki_h->prev;                  \
+      _kroki_h->prev = _kroki_n;                        \
+      _kroki_n->next = _kroki_h;                        \
+    }                                                   \
   while (0)
 
 #define kroki_list_insert_first(head, node)     \
   kroki_list_insert((head)->next, node)
 
-#define kroki_list_remove(node)                 \
-  do                                            \
-    {                                           \
-      (node)->prev->next = (node)->next;        \
-      (node)->next->prev = (node)->prev;        \
-    }                                           \
+#define kroki_list_remove(node)                         \
+  do                                                    \
+    {                                                   \
+      struct kroki_list_node *_kroki_n = (node);        \
+      _kroki_n->prev->next = _kroki_n->next;            \
+      _kroki_n->next->prev = _kroki_n->prev;            \
+    }                                                   \
   while (0)
 
 #define kroki_list_next(node, type, memb)               \
